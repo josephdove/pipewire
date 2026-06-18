@@ -236,6 +236,7 @@ static size_t get_media_codec_quality_priority (const struct media_codec *mc)
 		SPA_BLUETOOTH_AUDIO_CODEC_OPUS_G,
 		SPA_BLUETOOTH_AUDIO_CODEC_LC3PLUS_HR,
 		SPA_BLUETOOTH_AUDIO_CODEC_APTX_HD,
+		SPA_BLUETOOTH_AUDIO_CODEC_LHDC,
 		SPA_BLUETOOTH_AUDIO_CODEC_LDAC,
 	};
 	size_t i;

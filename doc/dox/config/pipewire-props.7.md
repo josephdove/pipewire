@@ -1193,7 +1193,7 @@ Supported roles:
 @PAR@ monitor-prop  bluez5.codecs   # JSON array of string
 Enabled A2DP codecs (default: all).  Possible values: `sbc`, `sbc_xq`,
 `aac`, `aac_eld`, `aptx`, `aptx_hd`, `aptx_ll`, `aptx_ll_duplex`,
-`faststream`, `faststream_duplex`, `lc3plus_h3`, `ldac`, `opus_05`,
+`faststream`, `faststream_duplex`, `lc3plus_h3`, `ldac`, `lhdc`, `opus_05`,
 `opus_05_51`, `opus_05_71`, `opus_05_duplex`, `opus_05_pro`, `opus_g`,
 `lc3`.
 
@@ -1402,6 +1402,24 @@ Available values:
 - hq   (High Quality, 990/909kbps)
 - sq   (Standard Quality, 660/606kbps)
 - mq   (Mobile use Quality, 330/303kbps)
+
+@PAR@ device-prop  bluez5.a2dp.lhdc.quality = "auto"   # string
+LHDC encoding quality
+Available values:
+- auto  (Adaptive bitrate, default)
+- high5
+- high4
+- high3
+- high2
+- high1
+- high
+- mid
+- low
+- low4
+- low3
+- low2
+- low1
+- low0
 
 @PAR@ device-prop  bluez5.a2dp.aac.bitratemode = 0   # integer
 AAC variable bitrate mode.

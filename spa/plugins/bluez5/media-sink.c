@@ -309,7 +309,8 @@ static int impl_node_enum_params(void *object, int seq,
 		    this->transport == NULL)
 			return 0;
 		else if ((res = this->codec->enum_props(this->codec_props,
-					this->transport->device->settings,
+					get_device_codec_settings(this->transport->device,
+						this->codec->kind == MEDIA_CODEC_BAP),
 					id, result.index - index_offset, &b, &param)) != 1)
 			return res;
 	}
@@ -2659,7 +2660,8 @@ impl_init(const struct spa_handle_factory *factory,
 	if (this->codec->init_props != NULL)
 		this->codec_props = this->codec->init_props(this->codec,
 					this->is_duplex ? MEDIA_CODEC_FLAG_SINK : 0,
-					this->transport->device->settings);
+					get_device_codec_settings(this->transport->device,
+						this->codec->kind == MEDIA_CODEC_BAP));
 
 	if (this->codec->kind == MEDIA_CODEC_BAP)
 		this->is_output = this->transport->bap_initiator;

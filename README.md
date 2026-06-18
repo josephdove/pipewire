@@ -9,6 +9,8 @@ deal with multimedia pipelines. This includes:
   - Accessing sources of video for consumption.
   - Generating graphs for audio and video processing.
 
+This tree adds an LHDC V5 A2DP codec plugin for the BlueZ5 Bluetooth backend.
+
 Nodes in the graph can be implemented as separate processes,
 communicating with sockets and exchanging multimedia content using fd
 passing.

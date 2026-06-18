@@ -152,6 +152,64 @@ if ldac_dep.found()
     install_dir : spa_plugindir / 'bluez5')
 endif
 
+if lhdc_codec_enabled
+  lhdcv5_enc_rs_sources = files(
+    '../../../lhdc/android-encoder/arith.rs',
+    '../../../lhdc/android-encoder/arith/ring_buf.rs',
+    '../../../lhdc/android-encoder/bits/mod.rs',
+    '../../../lhdc/android-encoder/bits/output.rs',
+    '../../../lhdc/android-encoder/common/lhdc_level.rs',
+    '../../../lhdc/android-encoder/enc/context.rs',
+    '../../../lhdc/android-encoder/enc/mod.rs',
+    '../../../lhdc/android-encoder/enc/process.rs',
+    '../../../lhdc/android-encoder/enc/process/tables.rs',
+    '../../../lhdc/android-encoder/ffi.rs',
+    '../../../lhdc/android-encoder/kiss_fft.rs',
+    '../../../lhdc/android-encoder/lhdc_api.rs',
+    '../../../lhdc/android-encoder/lhdc_api/cirbuf.rs',
+    '../../../lhdc/android-encoder/lhdc_api/lhdc_api_internal.rs',
+    '../../../lhdc/android-encoder/lhdc_enc/lhdc_enc_freq_process.rs',
+    '../../../lhdc/android-encoder/lhdc_enc/lhdc_enc_header.rs',
+    '../../../lhdc/android-encoder/lhdc_enc/lhdc_enc_workspace.rs',
+    '../../../lhdc/android-encoder/math.rs',
+  )
+
+  lhdcv5_enc = custom_target('lhdcv5-enc',
+    input : '../../../lhdc/android-encoder/lib.rs',
+    depend_files : lhdcv5_enc_rs_sources,
+    output : 'liblhdcv5-enc.a',
+    command : [
+      lhdc_rustc,
+      '--crate-name', 'lhdcv5_enc',
+      '--crate-type', 'staticlib',
+      '--edition=2021',
+      '-C', 'relocation-model=pic',
+      '-A', 'warnings',
+      '@INPUT@',
+      '-o', '@OUTPUT@',
+    ])
+
+  lhdcv5_dec_sources = [
+    '../../../lhdc/LHDC-V5-Decoder/decoder/lhdc_bit_reader.c',
+    '../../../lhdc/LHDC-V5-Decoder/decoder/lhdc_dec.c',
+    '../../../lhdc/LHDC-V5-Decoder/decoder/lhdc_diag_config.c',
+    '../../../lhdc/LHDC-V5-Decoder/decoder/lhdc_entropy_dec.c',
+    '../../../lhdc/LHDC-V5-Decoder/decoder/lhdc_imdct.c',
+    '../../../lhdc/LHDC-V5-Decoder/decoder/lhdc_sns_synth.c',
+    '../../../lhdc/LHDC-V5-Decoder/decoder/lhdc_tables.c',
+  ]
+  bluez_codec_lhdc = shared_library('spa-codec-bluez5-lhdc',
+    [ 'a2dp-codec-lhdc.c', 'media-codecs.c', lhdcv5_enc ] + lhdcv5_dec_sources,
+    include_directories : [
+      configinc,
+      include_directories('../../../lhdc/LHDC-V5-Decoder/decoder'),
+    ],
+    c_args : codec_args + [ '-DLHDC_HOST_BUILD' ],
+    dependencies : [ spa_dep, mathlib ],
+    install : true,
+    install_dir : spa_plugindir / 'bluez5')
+endif
+
 if get_option('bluez5-codec-lc3plus').allowed() and lc3plus_dep.found()
   bluez_codec_lc3plus = shared_library('spa-codec-bluez5-lc3plus',
     [ 'a2dp-codec-lc3plus.c', 'media-codecs.c' ],

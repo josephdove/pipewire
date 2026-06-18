@@ -94,6 +94,13 @@ if get_option('spa-plugins').allowed()
     endif
     summary({'LDAC DEC': ldac_dec_dep.found()}, bool_yn: true, section: 'Bluetooth audio codecs')
 
+    lhdc_rustc = find_program('rustc', required : false)
+    lhdc_codec_enabled = get_option('bluez5-codec-lhdc').allowed() and lhdc_rustc.found()
+    if get_option('bluez5-codec-lhdc').enabled() and not lhdc_rustc.found()
+      error('bluez5-codec-lhdc enabled, but Rust compiler not found')
+    endif
+    summary({'LHDC': lhdc_codec_enabled}, bool_yn: true, section: 'Bluetooth audio codecs')
+
     aptx_dep = dependency('libfreeaptx', required : get_option('bluez5-codec-aptx'))
     summary({'aptX': aptx_dep.found()}, bool_yn: true, section: 'Bluetooth audio codecs')
     fdk_aac_dep = dependency('fdk-aac', required : get_option('bluez5-codec-aac'))

@@ -194,6 +194,47 @@
 #define LDAC_SAMPLING_FREQ_176400	0x02
 #define LDAC_SAMPLING_FREQ_192000	0x01
 
+#define LHDCV5_VENDOR_ID		0x0000053a
+#define LHDCV5_CODEC_ID		0x4c35
+
+#define LHDCV5_SAMPLING_FREQ_MASK	0x35
+#define LHDCV5_SAMPLING_FREQ_192000	0x01
+#define LHDCV5_SAMPLING_FREQ_96000	0x04
+#define LHDCV5_SAMPLING_FREQ_48000	0x10
+#define LHDCV5_SAMPLING_FREQ_44100	0x20
+
+#define LHDCV5_BITS_PER_SAMPLE_MASK	0x07
+#define LHDCV5_BITS_PER_SAMPLE_32	0x01
+#define LHDCV5_BITS_PER_SAMPLE_24	0x02
+#define LHDCV5_BITS_PER_SAMPLE_16	0x04
+
+#define LHDCV5_MAX_BIT_RATE_MASK	0x30
+#define LHDCV5_MAX_BIT_RATE_1000K	0x00
+#define LHDCV5_MAX_BIT_RATE_400K	0x10
+#define LHDCV5_MAX_BIT_RATE_500K	0x20
+#define LHDCV5_MAX_BIT_RATE_900K	0x30
+
+#define LHDCV5_MIN_BIT_RATE_MASK	0xc0
+#define LHDCV5_MIN_BIT_RATE_64K	0x00
+#define LHDCV5_MIN_BIT_RATE_160K	0x40
+#define LHDCV5_MIN_BIT_RATE_256K	0x80
+#define LHDCV5_MIN_BIT_RATE_400K	0xc0
+
+#define LHDCV5_VERSION_MASK		0x0f
+#define LHDCV5_VERSION_1		0x01
+
+#define LHDCV5_FRAME_LEN_MASK		0x10
+#define LHDCV5_FRAME_LEN_5MS		0x10
+
+#define LHDCV5_FEATURE_AR		0x01
+#define LHDCV5_FEATURE_JAS		0x02
+#define LHDCV5_FEATURE_META		0x04
+#define LHDCV5_FEATURE_LLESS96K	0x10
+#define LHDCV5_FEATURE_LLESS24BIT	0x20
+#define LHDCV5_FEATURE_LL		0x40
+#define LHDCV5_FEATURE_LLESS48K	0x80
+#define LHDCV5_FEATURE_LLESS_RAW	0x80
+
 #define FASTSTREAM_VENDOR_ID            0x0000000a
 #define FASTSTREAM_CODEC_ID             0x0001
 
@@ -317,6 +358,15 @@ typedef struct {
 	uint8_t frequency;
 	uint8_t channel_mode;
 } __attribute__ ((packed)) a2dp_ldac_t;
+
+typedef struct {
+	a2dp_vendor_codec_t info;
+	uint8_t frequency;
+	uint8_t bits_bitrate;
+	uint8_t version_frame;
+	uint8_t features;
+	uint8_t features2;
+} __attribute__ ((packed)) a2dp_lhdcv5_t;
 
 #if __BYTE_ORDER == __LITTLE_ENDIAN
 
